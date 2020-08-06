@@ -3,7 +3,9 @@
 [flasgger.swagger](https://github.com/flasgger/flasgger)
 
 > in: 'docker --version'
+
 > out:'Docker version 19.03.12, build 48a66213fe'
+
 
 > in: 'docker build -t dml_api .
 > out:'Successfully tagged dml_api:latest'
