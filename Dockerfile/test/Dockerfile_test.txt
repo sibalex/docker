@@ -1,0 +1,114 @@
+docker run -it --name create-image-from-me ubuntu:14.04 /bin/true
+docker commit --change='ENTRYPOINT ["python3"]'  create-image-from-me
+
+--
+# You have created Dockerfile with appropriate instructions
+
+docker build -t test .
+# Image named test successfully created
+
+docker run --rm test
+> Hello World!
+
+docker run --rm test Universe
+> Hello Universe! 
+
+docker run --rm -v $(pwd)/Dockerfile:/mnt/Dockerfile -v /var/run/docker.sock:/var/run/docker.sock parseq/stepik-dockerfile-basics
+
+# Dockerfile
+FROM alpine
+ENTRYPOINT ["/bin/sh", "-c", "echo \"Hello $0!\" && exit"]
+CMD ["World"]
+
+# Dockerfile
+FROM ubuntu:14.04 
+ENTRYPOINT ["/bin/sh", "-c", "echo \"Hello $0!\" && exit"]
+CMD ["World"]
+
+# Dockerfile
+FROM ubuntu:14.04 
+ENTRYPOINT ["/bin/sh", "-c", "printf \"Hello %s!\n\" \"$0\"  && exit"]
+CMD ["World"]
+
+# Dockerfile
+FROM ubuntu:14.04 
+ENTRYPOINT ["/bin/sh", "-c", "printf \"Hello %s!\n\" \"$0\""]
+CMD ["World"]
+
+# Dockerfile
+FROM ubuntu:14.04
+RUN echo "echo \"Hello \$1!\"" >>/t.sh
+RUN chmod +x t.sh
+ENTRYPOINT ["/bin/bash", "/t.sh"]
+CMD ["World"]
+
+--
+id -u $(whoami)
+> 1000
+docker build -t dockerfile-extended .
+docker run -it --rm -v $(pwd):/home/stepik dockerfile-extended
+# Nano is opened, we write some text, closing editor and specifying a filename as 'test'
+
+ls -l test
+> -rw-r--r-- 1 <username> <group> 7 марта 11 17:20 test
+# Where <username> is the name of the user with uid=1000
+
+-
+docker build -t dockerfile-extended --build-arg UID=1001 .
+# Doing the same...
+> -rw-r--r-- 1 <username> <group> 7 марта 11 17:20 test
+# Where <username> is the name of the user with uid=1001
+
+-
+docker run --rm -v $(pwd)/Dockerfile:/mnt/Dockerfile -v /var/run/docker.sock:/var/run/docker.sock parseq/stepik-dockerfile-extended
+-
+
+#Dockerfile
+FROM ubuntu:16.04
+LABEL maintainer="test"
+RUN apt-get update
+RUN apt-get install nano
+ARG UID=1000
+RUN useradd -u $UID stepik
+USER stepik
+WORKDIR "/home/stepik"
+VOLUME "/home/stepik"
+ENV EDITOR nano
+CMD ["/bin/bash", "-c", "nano"]
+
+#Dockerfile
+FROM ubuntu:16.04
+ARG UID=1000
+RUN apt update
+RUN apt install nano
+RUN useradd -u $UID stepik
+USER $UID
+ENV EDITOR nano
+WORKDIR /home/stepik
+VOLUME /home/stepik
+ENTRYPOINT ["bash","-c","nano"]
+
+#Dockerfile
+FROM ubuntu:16.04
+ARG UID=1000
+RUN apt-get update
+RUN apt-get install -y nano
+ENV EDITOR=nano
+ENV var=/home/stepik
+RUN useradd -r -u $UID user -d $var -m
+USER user
+WORKDIR $var
+VOLUME /home/stepik
+ENTRYPOINT ["bash", "-c", "nano"]
+
+##
+FROM ubuntu:16.04    #Выбор платформы.
+ARG UID=1000         #Объявление uid по дефолту.
+RUN apt-get update \ #Обновление пакетов.
+   && apt-get install -y nano \               #Установка nano.
+   && useradd -r -ms /bin/bash -u $UID stepik #Объявление user + add /home/user + присвоение uid для user.
+ENV EDITOR=/bin/nano #Устанавливает nano в качестве редактора по умолчанию. 
+USER stepik          #Устанавливает имя пользователя.
+WORKDIR /home/stepik #Рабочая директория.
+VOLUME /home/stepik  #Прокинуть папку.
+ENTRYPOINT ["bash", "-c", "nano"] #Точка входа в nano.
