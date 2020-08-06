@@ -19,3 +19,13 @@
 > in: 'docker_ml % docker run -p 8000:8000 dml_api'
 >
 > out: '* Running on localhost:8000/ (Press CTRL+C to quit)'
+
+---
+
+<img width="694" alt="Screenshot 2020-08-06 at 7 25 19 PM" src="https://user-images.githubusercontent.com/43387913/89558690-326ee100-d81d-11ea-873c-617e15d9c689.png">
+
+> 'pip install streamlit'
+
+> in: 'streamlit run streamlit_app.py'
+>
+> out: 'You can now view your Streamlit app in your browser.'
