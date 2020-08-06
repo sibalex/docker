@@ -1,6 +1,6 @@
 # Docker 
 
-![how-to-deploy-java-apps-with-docker-a-quick-tutorial@3x-1560x760 2](https://user-images.githubusercontent.com/43387913/89559838-defd9280-d81e-11ea-8a2a-2e26886ba3b7.png)
+<img width="1094" alt="Screenshot 2020-08-06 at 7 59 03 PM" src="https://user-images.githubusercontent.com/43387913/89560196-53d0cc80-d81f-11ea-8b21-57462f0871fc.png">
 
 [docs.docker](https://docs.docker.com/engine/reference/commandline/docker/)
 [hub.docker](https://hub.docker.com/)
